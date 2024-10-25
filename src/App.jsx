@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readDir, readFile, writeFile } from '@tauri-apps/plugin-fs';
 import { convertFileSrc } from '@tauri-apps/api/core';
+import { check } from '@tauri-apps/plugin-updater';
+import { relaunch } from '@tauri-apps/plugin-process';
 import {decode} from 'base64-arraybuffer';
 import ExifReader from 'exifreader';
 import { border, meta } from "./assets/image";
@@ -158,6 +160,37 @@ export default function App() {
     function borderToggle(e) {
         if (e.target.checked) setBorderSize(document.getElementById("borderSize").value)
         else setBorderSize(0)
+    }
+
+    useEffect(()=>{
+        checkUpdate();
+    }, []);
+
+    async function checkUpdate() {
+        let update = await check();
+        if (update) {
+            let downloaded = 0;
+            let contentLength = 0;
+
+            await update.downloadAndInstall((event) => {
+                switch(event.event) {
+                    case "Started":
+                        console.log("[UPDATER] Update started")
+                        setState("updating");
+                        break;
+                    case "Progress":
+                        downloaded += event.data.chunkLength;
+                        console.log(`[UPDATER] Update progress: ${downloaded}/${contentLength}`)
+                        setPhotosGenerated(downloaded+"/"+contentLength)
+                        break;
+                    case "Finished":
+                        console.log("[UPDATER] Update finished")
+                        break;
+                }
+            });
+            
+            await relaunch();
+        }
     }
 
     return <>

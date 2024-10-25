@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Metariser",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "identifier": "uk.hallen.metariser",
   "build": {
     "beforeDevCommand": "vite dev",
@@ -30,9 +30,21 @@
       }
     }
   },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDlFNkE3RjlBNEQwRTg3Q0UKUldUT2h3NU5tbjlxbm1HOUNFZDBPL1BBV0tGTWdaRjVDMDFJd0tYbFErUWx1SnU0dHpYSFR5aU8K",
+      "endpoints": [
+        "https://gist.githubusercontent.com/haroldallen/9f5e104c032bd1befad646e00ec5a8ef/raw/metariser-updater.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
