@@ -1,0 +1,306 @@
+* { box-sizing: border-box; }
+html, body {
+    background-color: #181818;
+    color: #f0f0f0;
+    font-family: Inter, Helvetica, sans-serif;
+    font-weight: 300;
+    margin: 0;
+    height: 100%;
+}
+body {
+    padding: 24px 48px;
+}
+#root { height: 100%; }
+
+p {
+    margin: 0;
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    place-items: center;
+    gap: 24px;
+    height: 100%;
+}
+
+.app {
+    display: flex;
+    justify-content: space-between;
+}
+.app .left {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc(100% - 371px);
+    min-width: 256px;
+    gap: 5px;
+}
+.app .right {
+    position: fixed;
+    left: calc(100% - 371px);
+    height: calc(100% - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+}
+.app .right > div {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.app .right .toggle-label {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 8px;
+}
+.app .right .toggle-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.app .right .toggle-wrapper .dependant {
+    margin-left: 42px;
+    opacity: 1;
+}
+/* i fucking hate css */
+/* this makes dependants have opacity 0.5 if the parent input is not checked */
+.app .right .toggle-wrapper:not(:has(> .toggle-label input:checked), :has(> .toggle-wrapper > .toggle-label input:checked)):not(:checked) .dependant {
+    opacity: .5;
+}
+
+/*#region toggle */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle span {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #292929;
+    border-radius: 34px;
+    transition: 200ms;
+}
+.toggle input:checked + span {
+    background-color: #8C49B4;
+}
+.toggle span::before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 34px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    transition: 200ms;
+}
+.toggle input:checked + span:before {
+    transform: translateX(14px);
+}
+/*#endregion */
+
+/*#region input */
+.input:not(:has(.input)) {
+    background: #131313;
+    color: #f0f0f0;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-family: Inter, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+}
+.input:not(:has(.input)):not(:is(input)):focus {
+    outline: none;
+}
+.input:not(:has(.input)):focus-within {
+    outline: 1px solid rgba(255,255,255,0.5);
+}
+.input .input {
+    margin-top: 4px;
+}
+
+.input.click {
+    cursor: pointer;
+}
+/*#endregion */
+
+/*#region photo */
+.photo {
+    width: 266px;
+    background-color: #f0f0f0;
+}
+.photo img {
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 256px;
+    height: 256px;
+    object-fit: cover;
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #f0f0f0;
+    padding: 9px 12px 12px 12px;
+}
+.meta .settings {
+    display: flex;
+    gap: 16px;
+}
+.meta > div:not(.settings), .meta .settings > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.meta p:not(.label), .meta input {
+    background: transparent;
+    border: none;
+    padding: none;
+    font-family: Inter, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #181818;
+}
+.meta input {
+    width: 236px;
+    min-width: none;
+}
+.meta .settings input {
+    width: 44px;
+}
+.meta p:not(.label):focus, .meta input:focus { outline: none; text-decoration: underline; background-color: #fff; }
+.meta p.label {
+    color: #181818;
+    opacity: 0.75;
+    font-weight: 300;
+    font-size: 12px;
+}
+
+.meta p:not(.label):empty::before, .meta input:empty::before {
+    content: attr(placeholder);
+    color: #181818;
+    opacity: 0.75;
+}
+.meta p:not(.label):empty, .meta input:empty {
+    text-decoration: none !important;
+}
+/*#endregion */
+
+/*#region BUTTON */
+.button {
+    background: rgba(255,255,255,0.05);
+    border: none;
+    padding: 10px 32px;
+    border-radius: 8px;
+    font-family: Inter, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #f0f0f0;
+    cursor: pointer;
+}
+.button:hover {
+    background: rgba(255,255,255,0.1);
+}
+.button.primary {
+    background: #f0f0f0;
+    color: #181818;
+}
+.button.primary:hover {
+    background-color: #d9d9d9;
+}
+/*#endregion */
+
+/*#region LOADER */
+.loader {
+    border: 4px solid rgba(255,255,255,0.05);
+    border-top: 4px solid #ffffff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/*#endregion */
+
+/*#region POPUP */
+.popup-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.85);
+
+    display: grid;
+    place-items: center;
+}
+.popup-wrapper .popup {
+    background-color: #181818;
+    border-radius: 12px;
+    padding: 36px 48px;
+
+    max-height: calc(100vh - 96px);
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+}
+.popup-wrapper .popup::-webkit-scrollbar {
+    border-radius: 12px;
+    width: 12px;
+    background: #131313;
+}
+.popup-wrapper .popup::-webkit-scrollbar-thumb {
+    background: #292929;
+    border-radius: 12px;
+}
+.popup-wrapper .popup.center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1.5;
+    gap: 24px;
+}
+.popup-wrapper .popup.results > p {
+    margin-bottom: 36px;
+    font-weight: 700;
+    font-size: 36px;
+}
+.popup-wrapper .popup.results > div {
+    display: flex;
+    gap: 24px;
+}
+.popup-wrapper .popup.results > div .column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.popup-wrapper .popup.results > .button {
+    align-self: center;
+    position: absolute;
+    bottom: 8px;
+    width: 300px;
+    box-shadow: 0 0 100px 50px rgba(24,24,24,1);
+}
+/*#endregion */
