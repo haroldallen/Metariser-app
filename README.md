@@ -1,2 +1,2 @@
 # Metariser  
-The Metariser app, built in Tauri (React/JS/Rust)
+Metariser generates images from your photos with borders and metadata, ready for sharing on socials. Built in Tauri.
